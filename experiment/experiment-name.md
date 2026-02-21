@@ -1,1 +1,2 @@
-## Experiment name
+## Rod Cutting Problem Visualizer
+
