@@ -1,0 +1,1244 @@
+/* ═══════════════════════════════════════════════════════════════
+   ROD CUTTING VISUALIZER — STYLESHEET
+   Virtual Lab for Algorithm Design
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. RESET & BASE ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* ─── 2. CSS VARIABLES — LIGHT THEME ─── */
+:root,
+.theme-light {
+  --clr-bg:           #f4f6f9;
+  --clr-surface:      #ffffff;
+  --clr-surface-alt:  #eef1f5;
+  --clr-border:       #dce2ea;
+  --clr-border-focus: #3b82f6;
+
+  --clr-text:         #1e293b;
+  --clr-text-secondary: #64748b;
+  --clr-text-muted:   #94a3b8;
+
+  --clr-primary:      #3b82f6;
+  --clr-primary-hover:#2563eb;
+  --clr-primary-light:#dbeafe;
+
+  --clr-success:      #10b981;
+  --clr-success-light:#d1fae5;
+  --clr-success-bg:   #ecfdf5;
+
+  --clr-warning:      #f59e0b;
+  --clr-warning-light:#fde68a;
+  --clr-warning-bg:   #fffbeb;
+
+  --clr-danger:       #ef4444;
+  --clr-danger-light: #fca5a5;
+  --clr-danger-bg:    #fef2f2;
+
+  --clr-code-bg:      #f1f5f9;
+  --clr-code-line-active: #dbeafe;
+
+  --shadow-sm:        0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:        0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:        0 8px 24px rgba(0,0,0,0.1),  0 4px 8px rgba(0,0,0,0.06);
+
+  --radius-sm:        6px;
+  --radius-md:        10px;
+  --radius-lg:        14px;
+
+  /* Rod segment palette — deterministic by piece length */
+  --rod-1: #3b82f6;
+  --rod-2: #8b5cf6;
+  --rod-3: #10b981;
+  --rod-4: #f59e0b;
+  --rod-5: #ef4444;
+  --rod-6: #06b6d4;
+  --rod-7: #ec4899;
+  --rod-8: #84cc16;
+  --rod-9: #f97316;
+  --rod-10:#6366f1;
+  --rod-11:#14b8a6;
+  --rod-12:#e11d48;
+  --rod-13:#7c3aed;
+  --rod-14:#0ea5e9;
+  --rod-15:#a855f7;
+}
+
+/* ─── 3. CSS VARIABLES — DARK THEME ─── */
+.theme-dark {
+  --clr-bg:           #0f1520;
+  --clr-surface:      #1a2332;
+  --clr-surface-alt:  #222e3f;
+  --clr-border:       #2e3e54;
+  --clr-border-focus: #3b82f6;
+
+  --clr-text:         #e2e8f0;
+  --clr-text-secondary: #94a3b8;
+  --clr-text-muted:   #64748b;
+
+  --clr-primary:      #60a5fa;
+  --clr-primary-hover:#3b82f6;
+  --clr-primary-light:#1e3a5f;
+
+  --clr-success:      #34d399;
+  --clr-success-light:#065f46;
+  --clr-success-bg:   #064e3b;
+
+  --clr-warning:      #fbbf24;
+  --clr-warning-light:#92400e;
+  --clr-warning-bg:   #78350f;
+
+  --clr-danger:       #f87171;
+  --clr-danger-light: #991b1b;
+  --clr-danger-bg:    #7f1d1d;
+
+  --clr-code-bg:      #141e2e;
+  --clr-code-line-active: #1e3a5f;
+
+  --shadow-sm:        0 1px 3px rgba(0,0,0,0.25);
+  --shadow-md:        0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg:        0 8px 24px rgba(0,0,0,0.4);
+}
+
+/* ─── 4. HEADER ─── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--clr-primary);
+}
+
+.brand-text {
+  font-size: 0.9rem;
+  color: var(--clr-text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.brand-text strong {
+  color: var(--clr-text);
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* ─── 5. GENERIC BUTTONS ─── */
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-icon:hover {
+  background: var(--clr-surface-alt);
+  color: var(--clr-text);
+}
+.btn-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Theme toggle icon swap */
+.icon-moon { display: none; }
+.theme-dark .icon-sun  { display: none; }
+.theme-dark .icon-moon { display: block; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+.btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--clr-primary);
+  color: #fff;
+  padding: 10px 18px;
+  min-height: 40px;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--clr-primary-hover);
+  box-shadow: 0 2px 8px rgba(59,130,246,0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--clr-text-secondary);
+  padding: 8px 14px;
+  border-color: transparent;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--clr-surface-alt);
+  color: var(--clr-text);
+}
+
+.btn-full { width: 100%; }
+
+/* Control bar buttons */
+.btn-ctrl {
+  width: 42px;
+  height: 42px;
+  min-height: unset;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--clr-surface-alt);
+  color: var(--clr-text);
+  border: 1px solid var(--clr-border);
+}
+.btn-ctrl:hover:not(:disabled) {
+  background: var(--clr-primary-light);
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+}
+.btn-ctrl svg { width: 17px; height: 17px; }
+
+.btn-play {
+  width: 48px;
+  height: 48px;
+  background: var(--clr-primary);
+  color: #fff;
+  border-color: var(--clr-primary);
+}
+.btn-play:hover:not(:disabled) {
+  background: var(--clr-primary-hover);
+  border-color: var(--clr-primary-hover);
+  box-shadow: 0 3px 10px rgba(59,130,246,0.4);
+}
+.btn-play svg { width: 19px; height: 19px; }
+.btn-play .icon-pause { display: none; }
+.btn-play.is-playing .icon-play  { display: none; }
+.btn-play.is-playing .icon-pause { display: flex; }
+
+.btn-reset {
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  color: var(--clr-danger);
+  border: 1px solid var(--clr-danger-light);
+}
+.btn-reset:hover:not(:disabled) {
+  background: var(--clr-danger-bg);
+  border-color: var(--clr-danger);
+}
+
+/* ─── 6. APP LAYOUT ─── */
+.app-layout {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 24px 40px;
+  display: grid;
+  grid-template-columns: 280px 1fr 340px;
+  gap: 20px;
+  min-height: calc(100vh - 56px);
+  align-content: start;
+}
+
+/* ─── 7. PANELS ─── */
+.panel {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.2s;
+}
+
+.panel-config {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-center {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-info {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ─── 8. CONFIG SECTIONS ─── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clr-text-secondary);
+  margin-bottom: 8px;
+}
+
+/* Help icons */
+.help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--clr-surface-alt);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-text-muted);
+  font-size: 0.6rem;
+  font-weight: 600;
+  font-style: normal;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.help-icon:hover {
+  background: var(--clr-primary-light);
+  color: var(--clr-primary);
+}
+
+/* Tooltip */
+.help-icon .tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--clr-text);
+  color: var(--clr-bg);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.45;
+  padding: 8px 11px;
+  border-radius: var(--radius-sm);
+  width: 200px;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  pointer-events: none;
+}
+.help-icon .tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--clr-text);
+}
+.help-icon:hover .tooltip {
+  display: block;
+}
+
+/* Select */
+.input-select {
+  width: 100%;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--clr-text);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  appearance: auto;
+  transition: border-color 0.2s;
+}
+.input-select:focus {
+  outline: none;
+  border-color: var(--clr-border-focus);
+  box-shadow: 0 0 0 3px var(--clr-primary-light);
+}
+
+/* ─── 9. PRESET PILLS ─── */
+.preset-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset-pill {
+  font-family: inherit;
+  font-size: 0.73rem;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--clr-border);
+  background: var(--clr-surface-alt);
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.preset-pill:hover {
+  border-color: var(--clr-primary);
+  background: var(--clr-primary-light);
+  color: var(--clr-primary);
+}
+.preset-pill.active {
+  background: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: #fff;
+}
+
+/* ─── 10. PRICE GRID ─── */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.price-input-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.price-input-wrap .price-label {
+  font-size: 0.68rem;
+  color: var(--clr-text-muted);
+  font-weight: 500;
+}
+
+.price-input {
+  width: 100%;
+  padding: 7px 4px;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--clr-text);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.price-input:focus {
+  outline: none;
+  border-color: var(--clr-border-focus);
+  box-shadow: 0 0 0 3px var(--clr-primary-light);
+}
+.price-input.input-error {
+  border-color: var(--clr-danger);
+  background: var(--clr-danger-bg);
+}
+
+/* ─── 11. VIZ SECTION & ROD ─── */
+.viz-section {
+  background: var(--clr-surface-alt);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: background 0.35s ease;
+}
+
+.viz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.viz-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clr-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viz-status {
+  font-size: 0.72rem;
+  color: var(--clr-text-muted);
+  font-style: italic;
+}
+
+.rod-container {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.rod-track {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: stretch;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--clr-border);
+}
+
+/* Single monolithic rod (before cutting) */
+.rod-segment {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.rod-segment::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 2px;
+  background: rgba(255,255,255,0.25);
+}
+.rod-segment:last-child::after { display: none; }
+
+/* Cut animation: segments slide in */
+.rod-segment.segment-cut {
+  animation: segmentSlideIn 0.38s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes segmentSlideIn {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* Cut labels row */
+.cut-labels {
+  display: flex;
+  margin-top: 6px;
+  min-height: 22px;
+  gap: 2px;
+}
+.cut-label {
+  flex: 1;
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--clr-text-muted);
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── 12. CONTROLS BAR ─── */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls-center {
+  flex: 1;
+  text-align: center;
+  min-width: 80px;
+}
+
+.step-counter {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--clr-text-secondary);
+  font-weight: 500;
+}
+.step-counter #currentStep {
+  color: var(--clr-primary);
+  font-weight: 600;
+}
+
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.speed-label {
+  font-size: 0.72rem;
+  color: var(--clr-text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Speed slider */
+.speed-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 90px;
+  height: 4px;
+  background: var(--clr-border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--clr-primary);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(59,130,246,0.4);
+  transition: transform 0.15s;
+}
+.speed-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.speed-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--clr-primary);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(59,130,246,0.4);
+}
+
+/* ─── 13. DP TABLE ─── */
+.dp-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--clr-border);
+}
+
+.dp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.dp-table th {
+  background: var(--clr-surface-alt);
+  color: var(--clr-text-secondary);
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 9px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--clr-border);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.dp-table td {
+  padding: 7px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--clr-border);
+  color: var(--clr-text);
+  transition: background 0.25s ease;
+  white-space: nowrap;
+}
+.dp-table tr:last-child td { border-bottom: none; }
+
+/* DP cell states */
+.dp-cell-empty {
+  color: var(--clr-text-muted) !important;
+}
+
+.dp-cell-active {
+  background: var(--clr-warning-bg) !important;
+  animation: cellPulse 0.6s ease;
+}
+.dp-cell-active td {
+  font-weight: 600;
+  color: var(--clr-warning) !important;
+}
+
+.dp-cell-filled {
+  background: var(--clr-success-bg);
+}
+.dp-cell-filled td:nth-child(3) {
+  color: var(--clr-success);
+  font-weight: 600;
+}
+
+.dp-cell-target {
+  background: var(--clr-primary-light) !important;
+}
+.dp-cell-target td {
+  color: var(--clr-primary) !important;
+  font-weight: 600;
+}
+
+.dp-cell-comparing td {
+  color: var(--clr-warning) !important;
+}
+
+@keyframes cellPulse {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* ─── 14. INFO BLOCKS (right panel) ─── */
+.info-block {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: background 0.35s ease;
+}
+
+.info-block-header {
+  padding: 10px 14px;
+  background: var(--clr-surface-alt);
+  border-bottom: 1px solid var(--clr-border);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clr-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.35s ease;
+}
+
+/* ─── 15. FORMULA DISPLAY ─── */
+.formula-idle {
+  padding: 18px 16px;
+  text-align: center;
+}
+.formula-idle p {
+  font-size: 0.78rem;
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+}
+
+.formula-live {
+  padding: 14px 16px;
+}
+
+.formula-target {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--clr-primary);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.formula-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.formula-row {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--clr-text-secondary);
+  padding: 3px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.formula-row.is-best {
+  background: var(--clr-success-bg);
+  color: var(--clr-success);
+  font-weight: 600;
+}
+.formula-row.is-current {
+  background: var(--clr-warning-bg);
+  color: var(--clr-warning);
+}
+
+.formula-result {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--clr-success);
+  padding-top: 8px;
+  border-top: 1px solid var(--clr-border);
+}
+
+/* ─── 16. EXPLANATION ─── */
+.explanation-text {
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  color: var(--clr-text);
+  line-height: 1.6;
+}
+.explanation-text p { margin-bottom: 6px; }
+.explanation-text p:last-child { margin-bottom: 0; }
+.explanation-text strong { color: var(--clr-primary); }
+.explanation-text .highlight { color: var(--clr-warning); font-weight: 600; }
+.explanation-text .good     { color: var(--clr-success); font-weight: 600; }
+
+/* ─── 17. STATS ─── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--clr-border);
+}
+.stat-item {
+  background: var(--clr-surface);
+  padding: 10px 12px;
+  text-align: center;
+  transition: background 0.35s ease;
+}
+.stat-label {
+  display: block;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--clr-text-muted);
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.stat-value {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--clr-primary);
+}
+
+/* ─── 18. PSEUDOCODE ─── */
+.pseudocode {
+  background: var(--clr-code-bg);
+  padding: 12px 14px;
+  font-size: 0.74rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  transition: background 0.35s ease;
+}
+.pseudocode code {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--clr-text);
+}
+
+.code-line {
+  display: block;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  transition: background 0.25s ease, color 0.25s ease;
+  white-space: pre;
+}
+.code-line[data-line="1"],
+.code-line[data-line="2"],
+.code-line[data-line="3"] { padding-left: 18px; }
+.code-line[data-line="4"],
+.code-line[data-line="5"],
+.code-line[data-line="6"] { padding-left: 32px; }
+.code-line[data-line="7"] { padding-left: 18px; margin-top: 4px; }
+.code-line[data-line="8"] { padding-left: 18px; color: var(--clr-text-muted); font-style: italic; }
+
+.code-line.active {
+  background: var(--clr-code-line-active);
+  color: var(--clr-primary);
+  font-weight: 600;
+}
+
+/* ─── 19. CHALLENGES ─── */
+.challenge-list {
+  padding: 10px 14px;
+}
+.challenge-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--clr-border);
+  font-size: 0.76rem;
+  color: var(--clr-text);
+}
+.challenge-item:last-child { border-bottom: none; }
+.challenge-checkbox {
+  width: 17px;
+  height: 17px;
+  border: 2px solid var(--clr-border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  background: var(--clr-surface);
+  transition: border-color 0.2s;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.challenge-checkbox:checked {
+  background: var(--clr-success);
+  border-color: var(--clr-success);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* ─── 20. MODALS ─── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.is-open { display: flex; }
+
+.modal-card {
+  background: var(--clr-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 400px;
+  animation: modalIn 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.35s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)  scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 12px;
+}
+.modal-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--clr-text);
+}
+
+.shortcuts-grid {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.shortcut-key {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 9px;
+  background: var(--clr-surface-alt);
+  border: 1px solid var(--clr-border);
+  border-radius: 5px;
+  color: var(--clr-text);
+  min-width: 62px;
+  text-align: center;
+  box-shadow: 0 1px 0 var(--clr-border);
+}
+.shortcut-label {
+  font-size: 0.82rem;
+  color: var(--clr-text-secondary);
+}
+
+/* ─── 21. TUTORIAL OVERLAY ─── */
+.tutorial-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+}
+.tutorial-overlay.is-open { display: block; }
+
+.tutorial-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.tutorial-spotlight {
+  position: absolute;
+  border: 3px solid var(--clr-primary);
+  border-radius: 8px;
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.25), 0 0 28px rgba(59,130,246,0.2);
+  pointer-events: none;
+  transition: all 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 301;
+}
+
+.tutorial-card {
+  position: absolute;
+  z-index: 302;
+  background: var(--clr-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 340px;
+  width: calc(100% - 48px);
+  padding: 24px;
+  transition: all 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tutorial-step-indicator {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.tutorial-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--clr-text);
+  margin-bottom: 8px;
+}
+
+.tutorial-desc {
+  font-size: 0.8rem;
+  color: var(--clr-text-secondary);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.tutorial-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ─── 22. TOAST NOTIFICATIONS ─── */
+.toast-container {
+  position: fixed;
+  top: 72px;
+  right: 24px;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  max-width: 340px;
+  width: calc(100% - 48px);
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  animation: toastSlideIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.22s, transform 0.22s;
+}
+.toast.toast-exit {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.toast-error   { border-left: 3px solid var(--clr-danger); }
+.toast-warning { border-left: 3px solid var(--clr-warning); }
+.toast-success { border-left: 3px solid var(--clr-success); }
+.toast-info    { border-left: 3px solid var(--clr-primary); }
+
+.toast-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.toast-text {
+  font-size: 0.79rem;
+  color: var(--clr-text);
+  line-height: 1.45;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ─── 23. SCROLLBAR POLISH ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--clr-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--clr-text-muted); }
+
+/* ─── 24. RESPONSIVE — TABLET ─── */
+@media (max-width: 1100px) {
+  .app-layout {
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .panel-info {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .code-block { grid-column: 1 / -1; }
+  .challenge-block { grid-column: 1 / -1; }
+}
+
+/* ─── 25. RESPONSIVE — MOBILE ─── */
+@media (max-width: 700px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+    padding: 12px 14px 32px;
+    gap: 14px;
+  }
+
+  .panel-info {
+    grid-template-columns: 1fr;
+  }
+
+  .price-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+
+  .controls-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .controls-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-ctrl { width: 46px; height: 46px; min-height: 46px; }
+  .btn-play { width: 52px; height: 52px; }
+
+  .dp-table-wrap { max-height: 240px; overflow-y: auto; }
+
+  .header-inner { padding: 0 14px; }
+
+  .toast-container { right: 14px; top: 64px; }
+
+  .tutorial-card { max-width: 90vw; }
+}
+
+@media (max-width: 380px) {
+  .price-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ─── 26. FOCUS-VISIBLE (accessibility) ─── */
+:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+button:focus-visible, input:focus-visible, select:focus-visible {
+  box-shadow: 0 0 0 3px var(--clr-primary-light);
+}
+
+/* ─── 27. REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

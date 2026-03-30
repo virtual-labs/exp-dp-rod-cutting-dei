@@ -1,0 +1,90 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "What is the fundamental principle behind Dynamic Programming?",
+      "answers": {
+        "a": "Solving problems by dividing them into independent subproblems and solving each separately",
+        "b": "Solving overlapping subproblems once and storing their solutions for reuse",
+        "c": "Using multiple processors to solve problems in parallel",
+        "d": "Randomly trying different solutions until finding the optimal one"
+      },
+      "explanations": {
+        "a": "Incorrect. This describes divide-and-conquer, not Dynamic Programming.",
+        "b": "Correct! Dynamic Programming works by identifying overlapping subproblems, solving each exactly once, and storing the results to avoid redundant computations.",
+        "c": "Incorrect. This describes parallel computing, not Dynamic Programming.",
+        "d": "Incorrect. This describes a random search approach, which is inefficient."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "In the Rod Cutting Problem, if you have a rod of length 5, how many different ways can you cut it (including not cutting at all)?",
+      "answers": {
+        "a": "5 ways",
+        "b": "10 ways",
+        "c": "16 ways",
+        "d": "32 ways"
+      },
+      "explanations": {
+        "a": "Incorrect. This would be just one cut at each position.",
+        "b": "Incorrect. This is too small for the number of possible combinations.",
+        "c": "Correct! For a rod of length n, there are 2^(n-1) ways to cut it. For n=5, that's 2^4 = 16 ways.",
+        "d": "Incorrect. This would be 2^5, which is one power too high."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which of the following real-world problems is NOT analogous to the Rod Cutting Problem?",
+      "answers": {
+        "a": "Cutting fabric rolls to maximize profit in a textile factory",
+        "b": "Allocating server time slots to different clients for maximum revenue",
+        "c": "Finding the shortest path between two cities on a map",
+        "d": "Dividing an investment budget across different time periods for maximum returns"
+      },
+      "explanations": {
+        "a": "Incorrect. This is directly analogous to rod cutting.",
+        "b": "Incorrect. This is about partitioning a resource, similar to rod cutting.",
+        "c": "Correct! The shortest path problem is about minimization and finding a path through a graph, not about partitioning a resource to maximize value.",
+        "d": "Incorrect. This is about optimal partitioning, similar to rod cutting."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What would happen if we tried to solve the Rod Cutting Problem for a rod of length 25 using naive recursion without memoization?",
+      "answers": {
+        "a": "It would complete in milliseconds since modern computers are very fast",
+        "b": "It would take an impractically long time due to exponential growth of computations",
+        "c": "It would give an incorrect answer due to integer overflow",
+        "d": "It would complete quickly because recursion is always efficient"
+      },
+      "explanations": {
+        "a": "Incorrect. Even modern computers struggle with exponential time complexity.",
+        "b": "Correct! Naive recursion results in O(2^n) time complexity. For n=25, that's 2^25 = 33,554,432 recursive calls with massive redundancy.",
+        "c": "Incorrect. The answer would be correct, just extremely slow to compute.",
+        "d": "Incorrect. Recursion without memoization can be very inefficient for this problem."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In the context of Rod Cutting, what does 'optimal substructure' mean?",
+      "answers": {
+        "a": "The problem can be solved by choosing random cuts until finding the best solution",
+        "b": "The optimal solution to the problem contains optimal solutions to its subproblems",
+        "c": "The problem requires dividing the rod into equal-sized pieces",
+        "d": "The problem can only be solved using a specific cutting pattern"
+      },
+      "explanations": {
+        "a": "Incorrect. Random search is not related to optimal substructure.",
+        "b": "Correct! Optimal substructure means that the best way to cut a rod of length n can be constructed from optimal solutions for smaller lengths.",
+        "c": "Incorrect. Equal-sized pieces are not required for optimal substructure.",
+        "d": "Incorrect. Optimal substructure is about using optimal subsolutions, not a fixed pattern."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    }
+  ]
+}

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rod Cutting — Dynamic Programming Visualizer</title>
+  <meta name="description" content="An interactive step-by-step visualizer for the Rod Cutting problem using Dynamic Programming. Part of the Virtual Lab for Algorithm Design." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="theme-light" data-tutorial-done="false">
+
+  <!-- ─── TOP HEADER BAR ─── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="8" y1="6" x2="8" y2="18"/><line x1="14" y1="6" x2="14" y2="18"/></svg>
+        <span class="brand-text"><strong>Rod Cutting Simulation using Dynamic Programming</strong></span>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" id="keyboardHelpBtn" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (H)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/><line x1="6" y1="14" x2="18" y2="14"/><rect x="3" y="5" width="3" height="4" rx="0.5"/><rect x="8" y="5" width="3" height="4" rx="0.5"/><rect x="13" y="5" width="3" height="4" rx="0.5"/><rect x="18" y="5" width="3" height="4" rx="0.5"/></svg>
+        </button>
+        <button class="btn-icon" id="themeToggleBtn" aria-label="Toggle dark mode" title="Toggle theme (T)">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─── TUTORIAL OVERLAY (shown on first visit) ─── -->
+  <div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-backdrop"></div>
+    <div class="tutorial-card" id="tutorialCard">
+      <div class="tutorial-step-indicator">
+        <span id="tutorialStepNum">1</span> / <span id="tutorialStepTotal">5</span>
+      </div>
+      <h3 class="tutorial-title" id="tutorialTitle">Welcome to the Rod Cutting Visualizer</h3>
+      <p class="tutorial-desc" id="tutorialDesc">This tool helps you understand how Dynamic Programming solves the Rod Cutting problem step by step.</p>
+      <div class="tutorial-buttons">
+        <button class="btn btn-ghost" id="tutorialSkipBtn">Skip tour</button>
+        <button class="btn btn-primary" id="tutorialNextBtn">Next →</button>
+      </div>
+    </div>
+    <!-- Spotlight highlight ring -->
+    <div class="tutorial-spotlight" id="tutorialSpotlight"></div>
+  </div>
+
+  <!-- ─── KEYBOARD SHORTCUTS MODAL ─── -->
+  <div class="modal-overlay" id="shortcutsModal" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Keyboard Shortcuts</h3>
+        <button class="btn-icon modal-close" id="shortcutsCloseBtn" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-row"><span class="shortcut-key">Space</span><span class="shortcut-label">Step forward</span></div>
+        <div class="shortcut-row"><span class="shortcut-key">B</span><span class="shortcut-label">Step backward</span></div>
+        <div class="shortcut-row"><span class="shortcut-key">P</span><span class="shortcut-label">Play / Pause</span></div>
+        <div class="shortcut-row"><span class="shortcut-key">R</span><span class="shortcut-label">Reset</span></div>
+        <div class="shortcut-row"><span class="shortcut-key">T</span><span class="shortcut-label">Toggle theme</span></div>
+        <div class="shortcut-row"><span class="shortcut-key">H</span><span class="shortcut-label">This help panel</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MAIN LAYOUT ─── -->
+  <main class="app-layout">
+
+    <!-- ════════════════════════════════════════════════ LEFT PANEL ════════════════════════════════════════════════ -->
+    <aside class="panel panel-config">
+
+      <!-- Preset selector -->
+      <section class="config-section">
+        <label class="section-label">Preset Problems</label>
+        <div class="preset-pills" id="presetPills">
+          <!-- filled by JS -->
+        </div>
+      </section>
+
+      <!-- Rod length -->
+      <section class="config-section">
+        <label class="section-label" for="rodLengthSelect">Rod Length
+          <span class="help-icon" data-tooltip="Total length of the rod to be cut (1–15 units).">?</span>
+        </label>
+        <select class="input-select" id="rodLengthSelect">
+          <!-- Options populated by JS via buildRodLengthSelect() -->
+        </select>
+      </section>
+
+      <!-- Price table -->
+      <section class="config-section">
+        <label class="section-label">Price Table
+          <span class="help-icon" data-tooltip="Enter the selling price for each piece length. Prices must be non-negative integers.">?</span>
+        </label>
+        <div class="price-grid" id="priceGrid">
+          <!-- filled by JS -->
+        </div>
+      </section>
+
+      <!-- Action buttons -->
+      <div class="config-actions">
+        <button class="btn btn-primary btn-full" id="initBtn" aria-label="Initialize the algorithm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg>
+          Initialize
+        </button>
+      </div>
+    </aside>
+
+    <!-- ════════════════════════════════════════════════ CENTER PANEL ════════════════════════════════════════════════ -->
+    <section class="panel panel-center">
+
+      <!-- Rod visualization strip -->
+      <div class="viz-section">
+        <div class="viz-header">
+          <span class="viz-title">Rod Visualization
+            <span class="help-icon" data-tooltip="Shows the rod being cut into optimal pieces. Each color represents a different piece length.">?</span>
+          </span>
+          <span class="viz-status" id="vizStatus">Waiting for initialization</span>
+        </div>
+        <div class="rod-container" id="rodContainer">
+          <div class="rod-track" id="rodTrack">
+            <!-- Rod segments rendered by JS -->
+          </div>
+        </div>
+        <!-- Cut labels appear here during traceback -->
+        <div class="cut-labels" id="cutLabels"></div>
+      </div>
+
+      <!-- Playback controls -->
+      <div class="controls-bar">
+        <div class="controls-left">
+          <button class="btn btn-ctrl" id="prevBtn" disabled aria-label="Previous step (B)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/><line x1="4" y1="6" x2="4" y2="18"/></svg>
+          </button>
+          <button class="btn btn-ctrl btn-play" id="playPauseBtn" disabled aria-label="Play / Pause (P)">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><line x1="18" y1="4" x2="18" y2="20"/></svg>
+          </button>
+          <button class="btn btn-ctrl" id="nextBtn" disabled aria-label="Next step (Space)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/><line x1="20" y1="6" x2="20" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="controls-center">
+          <span class="step-counter"><span id="currentStep">0</span> / <span id="totalSteps">—</span></span>
+        </div>
+        <div class="controls-right">
+          <label class="speed-label">Speed</label>
+          <input type="range" class="speed-slider" id="speedSlider" min="1" max="10" value="5" aria-label="Animation speed" />
+        </div>
+        <button class="btn btn-ghost btn-reset" id="resetBtn" aria-label="Reset (R)">Reset</button>
+      </div>
+
+      <!-- DP Table -->
+      <div class="viz-section">
+        <div class="viz-header">
+          <span class="viz-title">DP Table
+            <span class="help-icon" data-tooltip="The Dynamic Programming table. Each row shows the optimal profit and the first cut made for a rod of that length.">?</span>
+          </span>
+        </div>
+        <div class="dp-table-wrap" id="dpTableWrap">
+          <table class="dp-table" id="dpTable">
+            <thead>
+              <tr>
+                <th>Length</th>
+                <th>Price</th>
+                <th>Max Profit</th>
+                <th>Cut Size</th>
+              </tr>
+            </thead>
+            <tbody id="dpTableBody">
+              <!-- rows filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ════════════════════════════════════════════════ RIGHT PANEL ════════════════════════════════════════════════ -->
+    <aside class="panel panel-info">
+
+      <!-- Live formula box -->
+      <div class="info-block formula-block" id="formulaBlock">
+        <div class="info-block-header">
+          <span>Current Calculation
+            <span class="help-icon" data-tooltip="The DP recurrence relation being evaluated right now. Each line tries a different first-cut length.">?</span>
+          </span>
+        </div>
+        <div class="formula-idle" id="formulaIdle">
+          <p>Initialize the algorithm to see<br/>the DP recurrence here.</p>
+        </div>
+        <div class="formula-live" id="formulaLive" style="display:none;">
+          <div class="formula-target" id="formulaTarget"></div>
+          <div class="formula-rows" id="formulaRows"></div>
+          <div class="formula-result" id="formulaResult"></div>
+        </div>
+      </div>
+
+      <!-- Step explanation -->
+      <div class="info-block explanation-block">
+        <div class="info-block-header">
+          <span>Explanation
+            <span class="help-icon" data-tooltip="A plain-English description of what the algorithm is doing at this step.">?</span>
+          </span>
+        </div>
+        <div class="explanation-text" id="explanationText">
+          <p>Press <strong>Initialize</strong> to start the visualization.</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="info-block stats-block">
+        <div class="info-block-header"><span>Statistics</span></div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Steps</span>
+            <span class="stat-value" id="statSteps">—</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Comparisons</span>
+            <span class="stat-value" id="statComparisons">—</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Max Profit</span>
+            <span class="stat-value" id="statMaxProfit">—</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Optimal Cuts</span>
+            <span class="stat-value" id="statCuts">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pseudocode -->
+      <div class="info-block code-block">
+        <div class="info-block-header"><span>Pseudocode</span></div>
+        <pre class="pseudocode" id="pseudocode"><code>
+<span class="code-line" data-line="0">FUNCTION rodCutting(prices[], n)</span>
+<span class="code-line" data-line="1">  dp[0..n] ← 0</span>
+<span class="code-line" data-line="2">  FOR i ← 1 TO n</span>
+<span class="code-line" data-line="3">    FOR j ← 1 TO i</span>
+<span class="code-line" data-line="4">      IF prices[j] + dp[i-j] &gt; dp[i]</span>
+<span class="code-line" data-line="5">        dp[i] ← prices[j] + dp[i-j]</span>
+<span class="code-line" data-line="6">        cut[i] ← j</span>
+<span class="code-line" data-line="7">  RETURN dp[n]  // max profit</span>
+<span class="code-line" data-line="8">  // Traceback: follow cut[] to find pieces</span>
+        </code></pre>
+      </div>
+
+
+
+    </aside>
+  </main>
+
+  <!-- ─── VALIDATION ERROR TOAST ─── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/main.js"></script>
+<script src="../assets/js/iframeResize.js"></script>
+        
+        </body>
+</html>

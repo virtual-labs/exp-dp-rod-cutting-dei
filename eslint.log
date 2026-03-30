@@ -1,0 +1,10 @@
+
+/home/runner/work/exp-dp-rod-cutting-dei/exp-dp-rod-cutting-dei/experiment/simulation/js/main.js
+   510:56  warning  'prices' is defined but never used        no-unused-vars
+   901:11  warning  'idx' is assigned a value but never used  no-unused-vars
+   930:89  warning  Empty block statement                     no-empty
+   939:16  warning  Empty block statement                     no-empty
+  1092:75  warning  Empty block statement                     no-empty
+
+✖ 5 problems (0 errors, 5 warnings)
+

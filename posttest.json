@@ -1,0 +1,175 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "What is the time complexity of the Dynamic Programming solution to the Rod Cutting Problem for a rod of length n?",
+      "answers": {
+        "a": "O(n)",
+        "b": "O(n log n)",
+        "c": "O(n²)",
+        "d": "O(2ⁿ)"
+      },
+      "explanations": {
+        "a": "Incorrect. Linear time is too optimistic for trying all possible cuts.",
+        "b": "Incorrect. This complexity is typical for divide-and-conquer algorithms like merge sort.",
+        "c": "Correct! The DP solution uses nested loops: the outer loop runs n times, and the inner loop runs up to i times for length i, giving O(n²).",
+        "d": "Incorrect. This is the brute force complexity, not the DP solution."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "If we use a bottom-up DP approach for Rod Cutting with length n, what is the space complexity?",
+      "answers": {
+        "a": "O(1) - constant space",
+        "b": "O(n) - linear space",
+        "c": "O(n²) - quadratic space",
+        "d": "O(2ⁿ) - exponential space"
+      },
+      "explanations": {
+        "a": "Incorrect. We need to store solutions for all lengths from 0 to n.",
+        "b": "Correct! We only need to store the revenue array of size (n+1) and optionally a cuts array of the same size.",
+        "c": "Incorrect. We don't need a 2D table since we build solutions iteratively.",
+        "d": "Incorrect. This would be impractical and unnecessary."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Why can't we effectively use a Greedy Algorithm to solve the Rod Cutting Problem?",
+      "answers": {
+        "a": "Greedy algorithms are always slower than Dynamic Programming",
+        "b": "The problem doesn't exhibit the greedy choice property",
+        "c": "Greedy algorithms can only work with sorted data",
+        "d": "The Rod Cutting Problem has no optimal solution"
+      },
+      "explanations": {
+        "a": "Incorrect. Speed is not the issue; correctness is.",
+        "b": "Correct! Local optimal choices don't guarantee global optimum. Choosing the best price-per-unit ratio at each step may miss better overall combinations.",
+        "c": "Incorrect. Greedy algorithms can work with unsorted data.",
+        "d": "Incorrect. The problem has an optimal solution, just not a greedy one."
+      },
+      "correctAnswer": "b",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "Consider a rod of length 6 with prices: p[1]=1, p[2]=5, p[3]=8, p[4]=9, p[5]=10, p[6]=17. The optimal revenue is 17 (no cut). Which property ensures we don't miss this solution?",
+      "answers": {
+        "a": "Memoization prevents us from forgetting solutions",
+        "b": "We systematically consider all possible first cuts, including no cut",
+        "c": "The recursion tree automatically finds the best path",
+        "d": "Greedy choice property guarantees the optimal solution"
+      },
+      "explanations": {
+        "a": "Incorrect. Memoization helps with efficiency, not exhaustive exploration.",
+        "b": "Correct! The DP recurrence tries all cuts from 1 to n. When j=6, we consider taking the full length without cutting.",
+        "c": "Incorrect. We need to explicitly check all possibilities.",
+        "d": "Incorrect. This problem doesn't have the greedy choice property."
+      },
+      "correctAnswer": "b",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "Which statement best describes why the Rod Cutting Problem has overlapping subproblems?",
+      "answers": {
+        "a": "Because we use the same rod multiple times in different test cases",
+        "b": "Because computing optimal revenue for length n requires solving for smaller lengths that appear in multiple computations",
+        "c": "Because the price table has duplicate values",
+        "d": "Because we cut the rod into overlapping pieces"
+      },
+      "explanations": {
+        "a": "Incorrect. Test cases are independent of the algorithm structure.",
+        "b": "Correct! For example, revenue[3] is used when computing revenue[4], revenue[5], revenue[6], etc. Without DP, we'd recompute it every time.",
+        "c": "Incorrect. Duplicate prices don't create overlapping subproblems.",
+        "d": "Incorrect. The pieces don't physically overlap; the subproblems do."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In the DP recurrence relation revenue[i] = max(price[j] + revenue[i-j]), what does revenue[i-j] represent?",
+      "answers": {
+        "a": "The cost of cutting at position j",
+        "b": "The price of a piece of length i-j",
+        "c": "The maximum revenue obtainable from the remaining rod of length i-j",
+        "d": "The number of cuts made so far"
+      },
+      "explanations": {
+        "a": "Incorrect. There is no cutting cost in the basic problem.",
+        "b": "Incorrect. price[i-j] would represent that, not revenue[i-j].",
+        "c": "Correct! After cutting a piece of length j, we have a remaining rod of length i-j, and revenue[i-j] gives its optimal value.",
+        "d": "Incorrect. The revenue array stores monetary values, not counts."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the base case in the Rod Cutting DP solution?",
+      "answers": {
+        "a": "revenue[1] = price[1]",
+        "b": "revenue[0] = 0",
+        "c": "revenue[n] = price[n]",
+        "d": "revenue[i] = infinity for all i"
+      },
+      "explanations": {
+        "a": "Incorrect. This is the first computed value, not the base case.",
+        "b": "Correct! A rod of length 0 has zero value. This base case allows the recurrence relation to work for all positive lengths.",
+        "c": "Incorrect. This is what we're trying to compute.",
+        "d": "Incorrect. We initialize with zero or small values, not infinity."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "If price[2] = 5 and revenue[2] = 5, but later we find revenue[4] = 10, what does this tell us?",
+      "answers": {
+        "a": "There is an error in the computation",
+        "b": "Cutting a length-4 rod into two length-2 pieces is optimal for length 4",
+        "c": "We should never cut rods of length 4",
+        "d": "The price table is inconsistent"
+      },
+      "explanations": {
+        "a": "Incorrect. This is a valid scenario.",
+        "b": "Correct! Since revenue[4] = 10 = 2 × revenue[2], the optimal strategy for length 4 is to cut it into two pieces of length 2.",
+        "c": "Incorrect. We are cutting it, just into specific pieces.",
+        "d": "Incorrect. This is normal behavior for the algorithm."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How many subproblems does the DP approach solve for a rod of length n?",
+      "answers": {
+        "a": "n subproblems",
+        "b": "n² subproblems",
+        "c": "2ⁿ subproblems",
+        "d": "n! subproblems"
+      },
+      "explanations": {
+        "a": "Correct! We solve exactly n subproblems: one for each length from 1 to n. Each is solved once and reused.",
+        "b": "Incorrect. This is the total number of operations, not distinct subproblems.",
+        "c": "Incorrect. This would be the brute force approach.",
+        "d": "Incorrect. Factorial complexity would be even worse than exponential."
+      },
+      "correctAnswer": "a",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "If we modify the problem to have a cost C for each cut, how does the recurrence relation change?",
+      "answers": {
+        "a": "revenue[i] = max(price[j] + revenue[i-j]) for all j",
+        "b": "revenue[i] = max(price[j] + revenue[i-j] - C) for j < i only",
+        "c": "revenue[i] = max(price[j] - C + revenue[i-j]) for all j",
+        "d": "The problem cannot be solved with Dynamic Programming"
+      },
+      "explanations": {
+        "a": "Incorrect. This doesn't account for the cutting cost.",
+        "b": "Correct! We subtract the cutting cost only when we actually make a cut (j < i). If j = i (no cut), there's no cost.",
+        "c": "Incorrect. The cutting cost should be subtracted from the total, not from the piece price.",
+        "d": "Incorrect. DP can still handle this modified problem."
+      },
+      "correctAnswer": "b",
+      "difficulty": "advanced"
+    }
+  ]
+}
