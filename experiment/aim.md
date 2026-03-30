@@ -1,3 +1,3 @@
 ### Aim of the Experiment
 
-To visualize and understand the use of Dynamic Prpgramming for finding the optimal cost of the rod cutting problem.
+To understand the use of Dynamic Programming for finding the optimal revenue in the rod cutting problem.

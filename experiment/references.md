@@ -25,8 +25,14 @@
 2. Font Awesome Icons - https://fontawesome.com/
 3. JSON Validator - https://jsonlint.com/
 
-## Standards and Protocols
+## Online Video Lectures
 
-1. FASTA format for biological sequences
-2. JSON format for data interchange
-3. HTML5/CSS3/ES6 for web standards
+1. **NPTEL: Design and Analysis of Algorithms**  
+   - Offered by: IIT Bombay  
+   - Instructors: Prof. Abhiram G. Ranade, Prof. Ajit A. Diwan, Prof. Sundar Viswanathan  
+   - Link: https://nptel.ac.in/courses/106101060  
+
+2. **NPTEL (NOC): Design and Analysis of Algorithms**  
+   - Offered by: Chennai Mathematical Institute  
+   - Instructor: Prof. Madhavan Mukund
+   - Link: https://nptel.ac.in/courses/106106131  

@@ -30,6 +30,7 @@
       prices: [1, 3, 6, 10, 15, 21, 28, 36],
       description: 'Longer pieces earn more per unit. Is cutting ever worth it?'
     },
+
     {
       id: 'bulk',
       label: 'Bulk Discount',
@@ -83,12 +84,7 @@
   ];
 
   // Practice challenges (shown after solution is found)
-  const CHALLENGES = [
-    'Can you predict the max profit before the algorithm finishes?',
-    'What happens if you double the price of length 1?',
-    'Try to design prices where the rod should NOT be cut at all.',
-    'Which preset gives the most cuts in its optimal solution?'
-  ];
+  // Removed per expert review
 
   /* ══════════════════════════════════════════════════
      2. STATE
@@ -178,8 +174,6 @@
     tutorialNextBtn: qid('tutorialNextBtn'),
     tutorialSkipBtn: qid('tutorialSkipBtn'),
 
-    challengeBlock: qid('challengeBlock'),
-    challengeList:  qid('challengeList'),
 
     toastContainer: qid('toastContainer')
   };
@@ -592,7 +586,6 @@
     if (step.phase === 'complete') {
       const dp = step.dpSnapshot;
       dom.statMaxProfit.textContent = '$' + dp[state.rodLength];
-      showChallenges();
     }
   }
 
@@ -813,9 +806,6 @@
     dom.formulaIdle.innerHTML = '<p>Initialize the algorithm to see<br/>the DP recurrence here.</p>';
     dom.explanationText.innerHTML = '<p>Press <strong>Initialize</strong> to start the visualization.</p>';
     dom.vizStatus.textContent = 'Waiting for initialization';
-
-    // Hide challenges
-    dom.challengeBlock.style.display = 'none';
   }
 
   /* ══════════════════════════════════════════════════
@@ -1131,32 +1121,7 @@
     }, duration);
   }
 
-  /* ══════════════════════════════════════════════════
-     23. PRACTICE CHALLENGES
-     ══════════════════════════════════════════════════ */
-  function showChallenges () {
-    dom.challengeBlock.style.display = 'block';
-    dom.challengeList.innerHTML = '';
-    CHALLENGES.forEach((q, idx) => {
-      const item = document.createElement('div');
-      item.className = 'challenge-item';
 
-      const cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.className = 'challenge-checkbox';
-      cb.id = 'challenge-' + idx;
-      cb.setAttribute('aria-label', q);
-
-      const label = document.createElement('label');
-      label.htmlFor = 'challenge-' + idx;
-      label.textContent = q;
-      label.style.cursor = 'pointer';
-
-      item.appendChild(cb);
-      item.appendChild(label);
-      dom.challengeList.appendChild(item);
-    });
-  }
 
   /* ══════════════════════════════════════════════════
      24. HELP ICON TOOLTIPS

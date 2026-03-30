@@ -16,6 +16,14 @@ Given a rod of length n and a price table p[i] (where p[i] is the price of a rod
 
 r[n] = max (p[i] + r[n-i]) for all 1 <= i <= n
 
+**Understanding the Recurrence Relation:**
+This formula is the heart of the dynamic programming solution. Here is how to break it down:
+- `r[n]` represents the **maximum revenue** we can obtain from a rod of total length `n`.
+- `p[i]` represents the price of making a first cut of length `i` and selling that piece directly.
+- `r[n-i]` represents the maximum revenue we can get from recursively cutting the remaining rod of length `n-i`.
+- `p[i] + r[n-i]` represents the total revenue if we choose to make out first cut precisely at length `i`.
+- The `max` over all `i` (from 1 to `n`) means we try every possible first cut, calculate the total revenue for each, and confidently pick the cut that yields the most money. By trusting that `r[n-i]` has already been calculated optimally (the Principle of Optimality), we can build up the answer incrementally.
+
 ### Real-World Significance
 
 This problem appears everywhere in the real world:
@@ -41,6 +49,10 @@ Why? At each of the (n-1) positions, you decide: cut or don't cut. This exponent
 |----------|----------------|------------------|
 | Brute Force (Recursive) | O(2^n) | O(n) (recursion stack) |
 | Dynamic Programming | O(n^2) | O(n) |
+
+**Understanding the Complexities:**
+- **Time Complexity ($O(n^2)$)**: For a rod of length `n`, the algorithm fills a table of size `n`. For each rod length `i` in the table (where `i` goes from 1 to `n`), it iterates `i` times to evaluate all possible first cuts. This results in $1 + 2 + 3 + ... + n$ operations, which equals $\frac{n(n+1)}{2}$. In Big O notation, we drop the constants and lower-order terms, giving $O(n^2)$.
+- **Space Complexity ($O(n)$)**: The bottom-up algorithm only requires a 1D array (`revenue[]`) to store the maximum revenue for lengths `0` up to `n`, and another array (`cuts[]`) of the same size to reconstruct the optimal cuts. Storing these arrays requires $O(n)$ extra space.
 
 The difference is staggering! For n = 20, DP is about 50,000 times faster!
 
